@@ -1,11 +1,10 @@
 $(document).ready(function(){
-	var x = event.keyCode;
-	$("#response").keypress(function(event){
+	$("#input").keypress(function(event){
+		var x = event.keyCode;
 		if(x == 13){
 			var searchTerm = $("#input").val();
-			$("<p>").append();
 			$.ajax({
-				'url': "https://api.adviceslip.com/advice/search/{query}",
+				'url': "https://api.adviceslip.com/advice",
 				'type': "GET",
 				'dataType': "JSON",
 				'data': {
@@ -13,14 +12,7 @@ $(document).ready(function(){
 					'q': searchTerm
 				},
 				success: function(data){
-					console.log(data);
-					var advice = "" ;
-					for(var i=0; i<advice.length; i++){
-						if(data.response.docs[i].headline.main != searchTerm) {
-							var newHeader = $("<h1>" + data.response.docs[i].headline.main + "</h1>");
-							$('body').append(newHeader);
-						}
-					}
+					$("#response").html(data.slip.advice);
 
 				},
 				error: function(data, textStatus, errorThrown) {
